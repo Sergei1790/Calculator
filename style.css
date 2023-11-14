@@ -1,0 +1,28 @@
+.sund-calculator-wrapper{
+    padding: 30px;
+}
+.sund-calculator{
+    background-color: #369;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 20px;
+    padding: 30px;
+}
+.sund-calculator__display{
+    height: 100px;
+    background-color: #f6f5f5;
+    margin-bottom: 15px;
+    font-size: 29px;
+}
+.sund-calculator__buttons{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+.sund-calculator__button{
+    padding: 20px;
+    font-size: 24px;
+}
+.sund-calculator__button.button_big{
+    grid-column: span 2;
+}

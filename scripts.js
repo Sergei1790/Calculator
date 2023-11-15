@@ -56,16 +56,19 @@ function toSecondNum(){
     } else{
         currentScreen.innerText += operator;
     }
-    if(result !== false){
+    if (result !== false) {
         secondNumber = '';
-    }
-    console.log(secondNumber);
-    if(trigger == 1 && secondNumber !== ''){
+        result = false;
+    } else if (secondNumber !== '') {
         operate();
-        trigger = 0;
     }
-    trigger++;
-
+    // console.log(secondNumber);
+    // if(trigger >= 1 && secondNumber !== ''){
+    //     operate();
+    //     trigger = 0;
+    // }
+    // trigger++;
+    
     // console.log({firstNumber});
     // console.log({secondNumber});
     // console.log('-------');

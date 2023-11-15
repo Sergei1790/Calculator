@@ -13,17 +13,19 @@ function divide(a, b) {
 let firstNumber = '';
 let secondNumber = '';
 let operator = '';
-const current = document.querySelector('#sund-calculator__current');
-const result = document.querySelector('#sund-calculator__result');
+const currentScreen = document.querySelector('#sund-calculator__current');
+const resultScreen = document.querySelector('#sund-calculator__result');
+let result = false;
 const equals = document.querySelector('#equals');
 
 const clear = document.querySelector('#clear').addEventListener('click', function() {
-    current.innerText = '';
-    result.innerText = '';
+    currentScreen.innerText = '';
+    resultScreen.innerText = '';
     firstNumber = '';
     secondNumber = '';
     operator = '';
     trigger = 0;
+    result = false;
 });
 
 let trigger = 0;
@@ -32,21 +34,9 @@ const operatorBtns = document.querySelectorAll('[data-operator]');
 operatorBtns.forEach(operatorBtn => {
     operatorBtn.addEventListener('click', toSecondNum);
 });
-function toSecondNum(){
-    operator = this.innerText;
-    firstNumber = Number(firstNumber);
-    if(current.innerText.at(-1) != operator){
-        current.innerText += operator; 
-    } 
-    if(trigger == 1){
-        operate();
-        trigger = 0;
-    }
-    trigger++;
-}
 numberBtns.forEach(numberBtn => {
     numberBtn.addEventListener('click', function() {
-        current.innerText += this.innerText; 
+        currentScreen.innerText += this.innerText; 
         if(typeof firstNumber !== 'number'){
             firstNumber += this.innerText;
         } else{
@@ -54,31 +44,55 @@ numberBtns.forEach(numberBtn => {
         }
     });
 });
+function toSecondNum(){
+    operator = this.innerText;
+    firstNumber = Number(firstNumber);
+    if(currentScreen.innerText.at(-1) === '+' ||
+    currentScreen.innerText.at(-1) === '-' ||
+    currentScreen.innerText.at(-1) === '×' ||
+    currentScreen.innerText.at(-1) === '÷'
+    ){
+        currentScreen.innerText = currentScreen.innerText.slice(0, -1) + operator; 
+    } else{
+        currentScreen.innerText += operator;
+    }
+    if(result !== false){
+        secondNumber = '';
+    }
+    console.log(secondNumber);
+    if(trigger == 1 && secondNumber !== ''){
+        operate();
+        trigger = 0;
+    }
+    trigger++;
+
+    // console.log({firstNumber});
+    // console.log({secondNumber});
+    // console.log('-------');
+}
+
 function operate(){
     secondNumber = Number(secondNumber);
-    trigger = 0;
     switch (operator) {
         case '+':
-            result.innerText = add(firstNumber, secondNumber);
+            result = add(firstNumber, secondNumber);
         break;
         case '-':
-            result.innerText = subtract(firstNumber, secondNumber);
+            result = subtract(firstNumber, secondNumber);
         break;
         case '×':
-            result.innerText = multiply(firstNumber, secondNumber);
+            result = multiply(firstNumber, secondNumber);
         break;
         case '÷':
             if(secondNumber === 0){
-                result.innerText = 'You cannot divide 0';
+                result = 'You cannot divide 0';
             } else{
-                result.innerText = divide(firstNumber, secondNumber);
+                result = divide(firstNumber, secondNumber);
             }
         break;
     }
-    // secondNumber = firstNumber;
-    // firstNumber = +result.innerText;
-    firstNumber = result.innerText;
-    // secondNumber = '';
+    resultScreen.innerText = result;
+    firstNumber = result;
 }
 equals.addEventListener('click', operate);
 

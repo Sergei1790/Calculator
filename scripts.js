@@ -56,7 +56,7 @@ function toSecondNum(){
     }
     secondNumber = '';
     result = false;
-    if (secondNumber == '') {
+    // if (secondNumber == '') {
         operator = this.innerText;
         firstNumber = Number(firstNumber);
         if(currentScreen.innerText.at(-1) === '+' ||
@@ -68,7 +68,7 @@ function toSecondNum(){
         } else{
             currentScreen.innerText += operator;
         }
-    }
+    // }
     
 
 //     нажимаем числа, которые добавляються в num1 если оно строка, а 

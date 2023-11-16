@@ -1,3 +1,4 @@
+// Culculator functions
 function add(a, b) {
     return a + b;
 }
@@ -10,65 +11,116 @@ function multiply(a, b) {
 function divide(a, b) {
     return a / b;
 }
+// /Culculator functions
+
+// Variables
 let firstNumber = '';
 let secondNumber = '';
 let operator = '';
+let zeroDivide;
 const currentScreen = document.querySelector('#sund-calculator__current');
 const resultScreen = document.querySelector('#sund-calculator__result');
 let result = false;
 const equals = document.querySelector('#equals');
+const clear = document.querySelector('#clear');
+const dot = document.querySelector('#dot');
+const numberBtns = document.querySelectorAll('[data-number]');
+const operatorBtns = document.querySelectorAll('[data-operator]');
+// /Variables
 
-const clear = document.querySelector('#clear').addEventListener('click', function() {
+
+// Function to reset screens
+function clearScreen(){
     currentScreen.innerText = '';
     resultScreen.innerText = '';
     firstNumber = '';
     secondNumber = '';
     operator = '';
-    trigger = 0;
     result = false;
-});
+}
+clear.addEventListener('click',clearScreen);
+// /Function to reset screens
 
-let trigger = 0;
-const numberBtns = document.querySelectorAll('[data-number]');
-const operatorBtns = document.querySelectorAll('[data-operator]');
+// function preventDotFromSecondClick(number){
+//     if(number.includes('.')){
+//         dot.disabled = true;
+//     } else{
+//         dot.disabled = false;
+//     }
+// }
+
+// Adding numbers to our firstNumber and secondNumber
+numberBtns.forEach(numberBtn => {
+    numberBtn.addEventListener('click', function() {
+        if(typeof firstNumber !== 'number'){
+            firstNumber += this.innerText;
+            // preventDotFromSecondClick(firstNumber);
+            // if(firstNumber.includes('.')){
+            //     dot.disabled = true;
+            // } else{
+            //     dot.disabled = false;
+            // }
+
+            
+        } else if(typeof secondNumber !== 'number'){
+            secondNumber += this.innerText;
+            // preventDotFromSecondClick(secondNumber);
+        }
+        currentScreen.innerText += this.innerText; 
+    });
+});
+// /Adding numbers to our firstNumber and secondNumber
+
+// Switching to input secondNumber if we have firstNumber
 operatorBtns.forEach(operatorBtn => {
     operatorBtn.addEventListener('click', toSecondNum);
 });
-numberBtns.forEach(numberBtn => {
-    numberBtn.addEventListener('click', function() {
-        currentScreen.innerText += this.innerText; 
-        if(typeof firstNumber !== 'number'){
-            firstNumber += this.innerText;
-        } else{
-            secondNumber += this.innerText;
-        }
-    });
-});
+// operatorBtns.forEach(operatorBtn => {
+//     operatorBtn.addEventListener('click', () =>{
+//         if(firstNumber == ''){
+//                   } else{
+//             toSecondNum();
+//         }
+//     });
+// });
+// /Switching to input secondNumber
+
+// Function when pressing on operator
 function toSecondNum(){
+    console.log(firstNumber);
+    // Checking if we have secondNumber and result
     if (secondNumber !== '' && result == false) {
         operate();
-
-       
-        // if (result !== false) {
-        //     secondNumber = '';
-        //     result = false;
-        // } 
     }
+    // /Checking if we have secondNumber and result
+
+    // Updating current screen
+    if(result != false){
+        currentScreen.innerText = result;
+    }
+    // /Updating current screen
+
+    // reseting 
     secondNumber = '';
     result = false;
-    // if (secondNumber == '') {
-        operator = this.innerText;
-        firstNumber = Number(firstNumber);
-        if(currentScreen.innerText.at(-1) === '+' ||
-        currentScreen.innerText.at(-1) === '-' ||
-        currentScreen.innerText.at(-1) === '×' ||
-        currentScreen.innerText.at(-1) === '÷'
-        ){
-            currentScreen.innerText = currentScreen.innerText.slice(0, -1) + operator; 
-        } else{
-            currentScreen.innerText += operator;
-        }
-    // }
+    // /reseting 
+
+    // catching operator and make firstNumber from string to number
+    operator = this.innerText;
+    firstNumber = Number(firstNumber);
+    // /catching operator and make firstNumber from string to number
+
+    // checking if we pressed operator many times
+    if(currentScreen.innerText.at(-1) === '+' ||
+    currentScreen.innerText.at(-1) === '-' ||
+    currentScreen.innerText.at(-1) === '×' ||
+    currentScreen.innerText.at(-1) === '÷'
+    ){
+        currentScreen.innerText = currentScreen.innerText.slice(0, -1) + operator; 
+    } else{
+        currentScreen.innerText += operator;
+    }
+    // /checking if we pressed operator many times
     
 
 //     нажимаем числа, которые добавляються в num1 если оно строка, а 
@@ -91,27 +143,18 @@ function toSecondNum(){
 //     в итоге 2 + 2 = 4;
 //     4 + 2 = 6;
 
-
-// 2+2-
-// 2 + 2 = 4;
-
-    
-    // else if (secondNumber !== '') {
-    //     operate();
-    // }
-    // console.log(secondNumber);
-    // if(trigger >= 1 && secondNumber !== ''){
-    //     operate();
-    //     trigger = 0;
-    // }
-    // trigger++;
-    
-    // console.log({firstNumber});
-    // console.log({secondNumber});
-    // console.log('-------');
+    // Check if divided by 0 
+    if(zeroDivide === true){
+        clearScreen();
+        zeroDivide = false;
+    }
 }
+// /Function when pressing on operator
 
+
+// Function when pressing on '='
 function operate(){
+
     secondNumber = Number(secondNumber);
     switch (operator) {
         case '+':
@@ -125,23 +168,42 @@ function operate(){
         break;
         case '÷':
             if(secondNumber === 0){
+                zeroDivide = true;
                 result = 'You cannot divide 0';
+                break;
             } else{
                 result = divide(firstNumber, secondNumber);
             }
         break;
     }
-    // console.log({firstNumber});
-    // console.log({secondNumber});
-    // console.log({result});
-    // currentScreen.innerText = result;
-
+    result = roundToFourDecimalPlaces(result);
+    currentScreen.innerText += ` = ${result}`;
     resultScreen.innerText = result;
     firstNumber = result;
   
+  
 }
-equals.addEventListener('click', operate);
+// /Function when pressing on '='
 
+// +preventing pressing '=' if there is no secondNumber
+equals.addEventListener('click', function(){
+    if(typeof firstNumber === 'number' && secondNumber !==''){
+        operate();
+    }
+});
+// /+preventing pressing '=' if there is no secondNumber
+
+// function to round to .0000 if number has > 4 signs after '.'
+function roundToFourDecimalPlaces(number) {
+    if (Number.isFinite(number) && number.toString().includes('.')) {
+        let decimalPlaces = number.toString().split('.')[1].length;
+        if (decimalPlaces > 4) {
+            return Number(number.toFixed(4));
+        }
+    }
+    return number;
+}
+// /function to round to .0000 if number has > 4 signs after '.'
 
 
 

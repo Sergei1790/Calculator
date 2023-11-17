@@ -100,6 +100,7 @@ function toSecondNum(){
         return;
     }
     // Prevent from pressing operator if we have nothing in input
+    
     // Checking if we have secondNumber and result
         if (secondNumber !== '' && result == false) {
         operate();

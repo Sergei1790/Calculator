@@ -29,7 +29,7 @@ const numberBtns = document.querySelectorAll('[data-number]');
 const operatorBtns = document.querySelectorAll('[data-operator]');
 // /Variables
 
-
+// let operatorClicked = false;
 // Function to reset screens
 function clearScreen(){
     currentScreen.innerText = '';
@@ -38,7 +38,7 @@ function clearScreen(){
     secondNumber = '';
     operator = '';
     result = false;
-    operatorClicked = false;
+    // operatorClicked = false;
 }
 clear.addEventListener('click',clearScreen);
 // /Function to reset screens
@@ -73,7 +73,7 @@ function preventDotFromSecondClick(number){
     return number;
 }
 
-let operatorClicked = false;
+
 
 
 // Adding numbers to our firstNumber and secondNumber

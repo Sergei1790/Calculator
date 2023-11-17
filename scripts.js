@@ -17,6 +17,7 @@ function divide(a, b) {
 let firstNumber = '';
 let secondNumber = '';
 let operator = '';
+let previousText = '';
 let zeroDivide;
 const currentScreen = document.querySelector('#sund-calculator__current');
 const resultScreen = document.querySelector('#sund-calculator__result');
@@ -29,7 +30,7 @@ const numberBtns = document.querySelectorAll('[data-number]');
 const operatorBtns = document.querySelectorAll('[data-operator]');
 // /Variables
 
-// let operatorClicked = false;
+let operatorClicked = false;
 // Function to reset screens
 function clearScreen(){
     currentScreen.innerText = '';
@@ -37,8 +38,9 @@ function clearScreen(){
     firstNumber = '';
     secondNumber = '';
     operator = '';
+    previousText = '';
     result = false;
-    // operatorClicked = false;
+    operatorClicked = false;
 }
 clear.addEventListener('click',clearScreen);
 // /Function to reset screens
@@ -52,18 +54,11 @@ function deleteNumber(){
         secondNumber = secondNumber.slice(0, -1);
         currentScreen.innerText = currentScreen.innerText.slice(0, -1)
     }
-
-        // if(!operatorClicked){
-    //     firstNumber = firstNumber.slice(0, -1);
-    //     currentScreen.innerText = currentScreen.innerText.slice(0, -1)
-    // } else if(operatorClicked && typeof secondNumber !== 'number'){
-    //     secondNumber = secondNumber.slice(0, -1);
-    //     currentScreen.innerText = currentScreen.innerText.slice(0, -1)
-    // }
 }
 del.addEventListener('click',deleteNumber);
 // /Function to delete number
 
+// Function to prevent more than one '.' in number
 function preventDotFromSecondClick(number){
     let splitNumber = number.split('.');
     if (splitNumber.length > 2) {
@@ -72,8 +67,7 @@ function preventDotFromSecondClick(number){
     }
     return number;
 }
-
-
+// /Function to prevent more than one '.' in number
 
 
 // Adding numbers to our firstNumber and secondNumber
@@ -81,38 +75,31 @@ numberBtns.forEach(numberBtn => {
     numberBtn.addEventListener('click', function() {
         if(typeof firstNumber !== 'number'){
             firstNumber += this.innerText;
+            firstNumber = preventDotFromSecondClick(firstNumber);
+            currentScreen.innerText += this.innerText;
+            currentScreen.innerText = preventDotFromSecondClick(currentScreen.innerText);  
         } else if(typeof secondNumber !== 'number'){
             secondNumber += this.innerText;
+            secondNumber = preventDotFromSecondClick(secondNumber);
+            currentScreen.innerText = previousText + preventDotFromSecondClick(secondNumber);
         }
-        currentScreen.innerText += this.innerText;
-
-                // if(!operatorClicked){
-        //     firstNumber += this.innerText;
-        //     // firstNumber = preventDotFromSecondClick(firstNumber);
-      
-        // } else {
-        //     secondNumber += this.innerText;
-        //     // secondNumber = preventDotFromSecondClick(secondNumber);
-            
-        // }
-        // currentScreen.innerText += this.innerText; 
-        // currentScreen.innerText = preventDotFromSecondClick(currentScreen.innerText);
-
     });
 });
 // /Adding numbers to our firstNumber and secondNumber
 
-// Switching to input secondNumber if we have firstNumber
+// Switching to input secondNumber if we press operator
 operatorBtns.forEach(operatorBtn => {
     operatorBtn.addEventListener('click', toSecondNum);
 });
-// /Switching to input secondNumber
+// /Switching to input secondNumber if we press operator
 
 // Function when pressing on operator
 function toSecondNum(){
-    // operatorClicked = true;
-
-
+    // Prevent from pressing operator if we have nothing in input
+    if(firstNumber === ''){
+        return;
+    }
+    // Prevent from pressing operator if we have nothing in input
     // Checking if we have secondNumber and result
         if (secondNumber !== '' && result == false) {
         operate();
@@ -147,6 +134,7 @@ function toSecondNum(){
     }
     // /checking if we pressed operator many times
     
+    previousText = currentScreen.innerText;
 
 //     нажимаем числа, которые добавляються в num1 если оно строка, а 
 //     если стало намбер, то числа, которые добавляються в num2

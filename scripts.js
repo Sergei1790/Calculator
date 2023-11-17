@@ -23,6 +23,7 @@ const resultScreen = document.querySelector('#sund-calculator__result');
 let result = false;
 const equals = document.querySelector('#equals');
 const clear = document.querySelector('#clear');
+const del = document.querySelector('#del');
 const dot = document.querySelector('#dot');
 const numberBtns = document.querySelectorAll('[data-number]');
 const operatorBtns = document.querySelectorAll('[data-operator]');
@@ -37,36 +38,66 @@ function clearScreen(){
     secondNumber = '';
     operator = '';
     result = false;
+    operatorClicked = false;
 }
 clear.addEventListener('click',clearScreen);
 // /Function to reset screens
 
-// function preventDotFromSecondClick(number){
-//     if(number.includes('.')){
-//         dot.disabled = true;
-//     } else{
-//         dot.disabled = false;
-//     }
-// }
+// Function to delete number
+function deleteNumber(){
+    if(typeof firstNumber !== 'number'){
+        firstNumber = firstNumber.slice(0, -1);
+        currentScreen.innerText = currentScreen.innerText.slice(0, -1)
+    } else if(typeof secondNumber !== 'number'){
+        secondNumber = secondNumber.slice(0, -1);
+        currentScreen.innerText = currentScreen.innerText.slice(0, -1)
+    }
+
+        // if(!operatorClicked){
+    //     firstNumber = firstNumber.slice(0, -1);
+    //     currentScreen.innerText = currentScreen.innerText.slice(0, -1)
+    // } else if(operatorClicked && typeof secondNumber !== 'number'){
+    //     secondNumber = secondNumber.slice(0, -1);
+    //     currentScreen.innerText = currentScreen.innerText.slice(0, -1)
+    // }
+}
+del.addEventListener('click',deleteNumber);
+// /Function to delete number
+
+function preventDotFromSecondClick(number){
+    let splitNumber = number.split('.');
+    if (splitNumber.length > 2) {
+        // Remove the extra '.'
+        return splitNumber[0] + '.' + splitNumber[1];
+    }
+    return number;
+}
+
+let operatorClicked = false;
+
 
 // Adding numbers to our firstNumber and secondNumber
 numberBtns.forEach(numberBtn => {
     numberBtn.addEventListener('click', function() {
         if(typeof firstNumber !== 'number'){
             firstNumber += this.innerText;
-            // preventDotFromSecondClick(firstNumber);
-            // if(firstNumber.includes('.')){
-            //     dot.disabled = true;
-            // } else{
-            //     dot.disabled = false;
-            // }
-
-            
         } else if(typeof secondNumber !== 'number'){
             secondNumber += this.innerText;
-            // preventDotFromSecondClick(secondNumber);
         }
-        currentScreen.innerText += this.innerText; 
+        currentScreen.innerText += this.innerText;
+
+                // if(!operatorClicked){
+        //     firstNumber += this.innerText;
+        //     // firstNumber = preventDotFromSecondClick(firstNumber);
+      
+        // } else {
+        //     secondNumber += this.innerText;
+        //     // secondNumber = preventDotFromSecondClick(secondNumber);
+            
+        // }
+        // currentScreen.innerText += this.innerText; 
+        // currentScreen.innerText = preventDotFromSecondClick(currentScreen.innerText);
+
     });
 });
 // /Adding numbers to our firstNumber and secondNumber
@@ -75,21 +106,15 @@ numberBtns.forEach(numberBtn => {
 operatorBtns.forEach(operatorBtn => {
     operatorBtn.addEventListener('click', toSecondNum);
 });
-// operatorBtns.forEach(operatorBtn => {
-//     operatorBtn.addEventListener('click', () =>{
-//         if(firstNumber == ''){
-//                   } else{
-//             toSecondNum();
-//         }
-//     });
-// });
 // /Switching to input secondNumber
 
 // Function when pressing on operator
 function toSecondNum(){
-    console.log(firstNumber);
+    // operatorClicked = true;
+
+
     // Checking if we have secondNumber and result
-    if (secondNumber !== '' && result == false) {
+        if (secondNumber !== '' && result == false) {
         operate();
     }
     // /Checking if we have secondNumber and result

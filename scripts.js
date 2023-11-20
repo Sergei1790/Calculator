@@ -204,23 +204,6 @@ function roundToFourDecimalPlaces(number) {
 // Keyboard Support
 document.addEventListener("keydown", (event) => {
     // console.log(`key=${event.key},code=${event.code}`);
-    const pressedKey = event.key;
-
-    allButtons.forEach(btn => {
-        if (btn.textContent === pressedKey) {
-            if (!btn.classList.contains('highlighted')) {
-                // Remove 'highlighted' class from all buttons
-                allButtons.forEach(otherBtn => {
-                    if (otherBtn !== btn) {
-                        otherBtn.classList.remove('highlighted');
-                    }
-                });
-    
-                // Add 'highlighted' class to the matching button
-                btn.classList.add('highlighted');
-            }
-        }
-    });
     if(event.key >=0 && event.key <=9 || event.key==='.'){
         if(typeof firstNumber !== 'number'){
             firstNumber += event.key;
@@ -258,6 +241,41 @@ document.addEventListener("keydown", (event) => {
     }
 });
 // //Keyboard Support
+
+// Add .highlighted for css whe buttons pressed or clicked
+document.addEventListener("keydown", (event) => {
+    const pressedKey = event.key;
+    allButtons.forEach(btn => {
+        if (btn.textContent === pressedKey) {
+            if (!btn.classList.contains('highlighted')) {
+                allButtons.forEach(otherBtn => {
+                    if (otherBtn !== btn) {
+                        otherBtn.classList.remove('highlighted');
+                    }
+                });
+                btn.classList.add('highlighted');
+            } else {
+                btn.classList.remove('highlighted');
+            }
+        }
+    });
+});
+
+allButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (!btn.classList.contains('highlighted')) {
+            allButtons.forEach(otherBtn => {
+                if (otherBtn !== btn) {
+                    otherBtn.classList.remove('highlighted');
+                }
+            });
+            btn.classList.add('highlighted');
+        } else {
+            btn.classList.remove('highlighted');
+        }
+    });
+});
+// /Add .highlighted for css whe buttons pressed or clicked
 
 
 //     нажимаем числа, которые добавляються в num1 если оно строка, а 

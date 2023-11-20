@@ -36,10 +36,10 @@
 #del{
     background-color: #f48c8c;
 }
-.sund-calculator__button:hover, 
-.sund-calculator__button:focus{
+/* .sund-calculator__button:hover, 
+.sund-calculator__button:focus, */
+.sund-calculator__button.highlighted{
     background-color: #a4c3c8;
-    
 }
 .sund-calculator__button:active{
     transform: scale(.95); 

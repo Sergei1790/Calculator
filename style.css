@@ -2,17 +2,18 @@
     padding: 30px;
 }
 .sund-calculator{
-    background-color: #369;
+    background-color: #55789c;
     max-width: 500px;
     margin: 0 auto;
     border-radius: 20px;
     padding: 30px;
 }
 .sund-calculator__display{
-    height: 100px;
+    min-height: 100px;
     background-color: #f6f5f5;
     margin-bottom: 15px;
     font-size: 29px;
+    word-break: break-all;
 }
 .sund-calculator__buttons{
     display: grid;
@@ -22,7 +23,27 @@
 .sund-calculator__button{
     padding: 20px;
     font-size: 24px;
+    margin: 0;
+    color: #443849;
+    border-radius: 5px;
+    border: 0;
+    transition: all .2s ease-in-out;
+    cursor: pointer;
 }
+#clear{
+    background-color: #f48c8c;
+}
+#del{
+    background-color: #f48c8c;
+}
+.sund-calculator__button:hover, 
+.sund-calculator__button:focus{
+    background-color: #a4c3c8;
+    
+}
+.sund-calculator__button:active{
+    transform: scale(.95); 
+} 
 .sund-calculator__button.button_big{
     grid-column: span 2;
 }

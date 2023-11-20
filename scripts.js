@@ -28,6 +28,7 @@ const del = document.querySelector('#del');
 const dot = document.querySelector('#dot');
 const numberBtns = document.querySelectorAll('[data-number]');
 const operatorBtns = document.querySelectorAll('[data-operator]');
+const allButtons = document.querySelectorAll('.sund-calculator__button');
 // /Variables
 
 let operatorClicked = false;
@@ -201,9 +202,26 @@ function roundToFourDecimalPlaces(number) {
 // /function to round to .0000 if number has > 4 signs after '.'
 
 // Keyboard Support
-document.addEventListener("keyup", (event) => {
+document.addEventListener("keydown", (event) => {
     // console.log(`key=${event.key},code=${event.code}`);
-    if(event.key >=0 && event.key <=9){
+    const pressedKey = event.key;
+
+    allButtons.forEach(btn => {
+        if (btn.textContent === pressedKey) {
+            if (!btn.classList.contains('highlighted')) {
+                // Remove 'highlighted' class from all buttons
+                allButtons.forEach(otherBtn => {
+                    if (otherBtn !== btn) {
+                        otherBtn.classList.remove('highlighted');
+                    }
+                });
+    
+                // Add 'highlighted' class to the matching button
+                btn.classList.add('highlighted');
+            }
+        }
+    });
+    if(event.key >=0 && event.key <=9 || event.key==='.'){
         if(typeof firstNumber !== 'number'){
             firstNumber += event.key;
             firstNumber = preventDotFromSecondClick(firstNumber);

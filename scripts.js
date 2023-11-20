@@ -69,7 +69,6 @@ function preventDotFromSecondClick(number){
 }
 // /Function to prevent more than one '.' in number
 
-
 // Adding numbers to our firstNumber and secondNumber
 numberBtns.forEach(numberBtn => {
     numberBtn.addEventListener('click', function() {
@@ -89,7 +88,11 @@ numberBtns.forEach(numberBtn => {
 
 // Switching to input secondNumber if we press operator
 operatorBtns.forEach(operatorBtn => {
-    operatorBtn.addEventListener('click', toSecondNum);
+    operatorBtn.addEventListener('click', () =>{
+        // Moved here operator = this.innerText; because of keyboard support
+        operator = operatorBtn.innerText;
+        toSecondNum();
+    });
 });
 // /Switching to input secondNumber if we press operator
 
@@ -119,7 +122,8 @@ function toSecondNum(){
     // /reseting 
 
     // catching operator and make firstNumber from string to number
-    operator = this.innerText;
+    // Moving up operator = this.innerText; because of keyboard support
+    // operator = this.innerText;
     firstNumber = Number(firstNumber);
     // /catching operator and make firstNumber from string to number
 
@@ -137,26 +141,6 @@ function toSecondNum(){
     
     previousText = currentScreen.innerText;
 
-//     нажимаем числа, которые добавляються в num1 если оно строка, а 
-//     если стало намбер, то числа, которые добавляються в num2
-
-//     - вводим первое число (строка),
-//     - когда нажимаем оператор:
-//     1. первое число из строки переводим в намбер
-//     2. хоть 100 раз нажимаем оператор - добавляется только последний
-//     3. проверяем если есть результат, тогда обнуляем второе число и результат,
-//     если нет, то просто работаем
-
-//     - вводим второе число (строка)
-//    - когда нажимаем = второе число переводим в намбер 
-//    - нажимаем =
-//    1. проводим операцию:
-//     2. результат добавляем в result, который был false
-//     3. num1 равняем результату
-//     4. если нажимаем = опять, то повторяется операция
-//     в итоге 2 + 2 = 4;
-//     4 + 2 = 6;
-
     // Check if divided by 0 
     if(zeroDivide === true){
         clearScreen();
@@ -168,7 +152,6 @@ function toSecondNum(){
 
 // Function when pressing on '='
 function operate(){
-
     secondNumber = Number(secondNumber);
     switch (operator) {
         case '+':
@@ -194,8 +177,6 @@ function operate(){
     currentScreen.innerText += ` = ${result}`;
     resultScreen.innerText = result;
     firstNumber = result;
-  
-  
 }
 // /Function when pressing on '='
 
@@ -218,6 +199,68 @@ function roundToFourDecimalPlaces(number) {
     return number;
 }
 // /function to round to .0000 if number has > 4 signs after '.'
+
+// Keyboard Support
+document.addEventListener("keyup", (event) => {
+    // console.log(`key=${event.key},code=${event.code}`);
+    if(event.key >=0 && event.key <=9){
+        if(typeof firstNumber !== 'number'){
+            firstNumber += event.key;
+            firstNumber = preventDotFromSecondClick(firstNumber);
+            currentScreen.innerText += event.key;
+            currentScreen.innerText = preventDotFromSecondClick(currentScreen.innerText);  
+        } else if(typeof secondNumber !== 'number'){
+            secondNumber += event.key;
+            secondNumber = preventDotFromSecondClick(secondNumber);
+            currentScreen.innerText = previousText + preventDotFromSecondClick(secondNumber);
+        }
+    }
+
+    if(event.key === '+' || event.key === '-' ||
+        event.key === '*' || event.key === '/'){
+        operator = event.key;
+        if(event.key === '*'){
+            operator = '×';
+        } else if (event.key === '/'){
+            operator = '÷';
+        }
+        toSecondNum();
+    }
+
+    if ((event.key === '=' || event.key === 'Enter') &&
+    typeof firstNumber === 'number' && secondNumber !=='') {
+        operate();
+    }
+
+    if(event.key === 'Backspace' || event.key === 'Delete'){
+        deleteNumber();
+    }
+    if(event.key === 'c'){
+        clearScreen();
+    }
+});
+// //Keyboard Support
+
+
+//     нажимаем числа, которые добавляються в num1 если оно строка, а 
+//     если стало намбер, то числа, которые добавляються в num2
+
+//     - вводим первое число (строка),
+//     - когда нажимаем оператор:
+//     1. первое число из строки переводим в намбер
+//     2. хоть 100 раз нажимаем оператор - добавляется только последний
+//     3. проверяем если есть результат, тогда обнуляем второе число и результат,
+//     если нет, то просто работаем
+
+//     - вводим второе число (строка)
+//    - когда нажимаем = второе число переводим в намбер 
+//    - нажимаем =
+//    1. проводим операцию:
+//     2. результат добавляем в result, который был false
+//     3. num1 равняем результату
+//     4. если нажимаем = опять, то повторяется операция
+//     в итоге 2 + 2 = 4;
+//     4 + 2 = 6;
 
 
 

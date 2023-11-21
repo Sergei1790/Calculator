@@ -2,6 +2,16 @@ body{
     background-color: #b8e0d2;
     margin: 0;
 }
+/* Disable user scaling */
+@viewport {
+    width: device-width;
+    zoom: 1.0;
+}
+
+/* Alternative approach for older versions of iOS */
+body {
+    touch-action: manipulation;
+}
 .sund-calculator-wrapper{
     margin-top: 90px;
     padding: 15px;

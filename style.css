@@ -46,8 +46,7 @@ body{
 #del.highlighted{
     filter: brightness(1.2);
 }
-/* .sund-calculator__button:hover, 
-.sund-calculator__button:focus, */
+
 .sund-calculator__button.highlighted{
     background-color: #d6eadf;
 }

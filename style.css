@@ -3,8 +3,8 @@ body{
     margin: 0;
 }
 .sund-calculator-wrapper{
-    margin-top: 80px;
-    padding: 30px;
+    margin-top: 90px;
+    padding: 15px;
 }
 .sund-calculator{
     background-color: #809bce;
@@ -31,6 +31,7 @@ body{
     margin: 0;
     color: #443849;
     border-radius: 5px;
+    box-shadow: none;
     border: 0;
     transition: all .2s ease-in-out;
     cursor: pointer;

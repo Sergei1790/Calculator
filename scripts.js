@@ -203,8 +203,8 @@ function roundToFourDecimalPlaces(number) {
 
 // Keyboard Support
 document.addEventListener("keydown", (event) => {
-    // console.log(`key=${event.key},code=${event.code}`);
-    if(event.key >=0 && event.key <=9 || event.key==='.'){
+    console.log(`key=${event.key},code=${event.code}`);
+    if(event.key >=0 && event.key <=9 || event.key === '.'){
         if(typeof firstNumber !== 'number'){
             firstNumber += event.key;
             firstNumber = preventDotFromSecondClick(firstNumber);
@@ -230,6 +230,8 @@ document.addEventListener("keydown", (event) => {
 
     if ((event.key === '=' || event.key === 'Enter') &&
     typeof firstNumber === 'number' && secondNumber !=='') {
+        event.preventDefault();
+        event.stopPropagation();
         operate();
     }
 
@@ -237,6 +239,8 @@ document.addEventListener("keydown", (event) => {
         deleteNumber();
     }
     if(event.key === 'c'){
+        event.preventDefault();
+        event.stopPropagation();
         clearScreen();
     }
 });
@@ -262,7 +266,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 allButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('mouseenter', () => {
         if (!btn.classList.contains('highlighted')) {
             allButtons.forEach(otherBtn => {
                 if (otherBtn !== btn) {

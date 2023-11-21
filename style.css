@@ -1,12 +1,17 @@
+body{
+    background-color: #b8e0d2;
+    margin: 0;
+}
 .sund-calculator-wrapper{
+    margin-top: 80px;
     padding: 30px;
 }
 .sund-calculator{
-    background-color: #55789c;
-    max-width: 500px;
+    background-color: #809bce;
+    max-width: 400px;
     margin: 0 auto;
     border-radius: 20px;
-    padding: 30px;
+    padding: 20px;
 }
 .sund-calculator__display{
     min-height: 100px;
@@ -31,15 +36,19 @@
     cursor: pointer;
 }
 #clear{
-    background-color: #f48c8c;
+    background-color: #eac4d5;
 }
 #del{
-    background-color: #f48c8c;
+    background-color: #95b8d1;
+}
+#clear.highlighted,
+#del.highlighted{
+    filter: brightness(1.2);
 }
 /* .sund-calculator__button:hover, 
 .sund-calculator__button:focus, */
 .sund-calculator__button.highlighted{
-    background-color: #a4c3c8;
+    background-color: #d6eadf;
 }
 .sund-calculator__button:active{
     transform: scale(.95); 

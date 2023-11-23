@@ -38,7 +38,7 @@ body {
     color: #443849;
     border-radius: 5px;
     box-shadow: none;
-    border: 0;
+    border: 0; 
     transition: all .2s ease-in-out;
     cursor: pointer;
 }

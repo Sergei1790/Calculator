@@ -32,7 +32,7 @@ body {
     gap: 5px;
 }
 .sund-calculator__button{
-    padding: 20px;
+    padding: 20px; 
     font-size: 24px;
     margin: 0;
     color: #443849;

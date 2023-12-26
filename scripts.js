@@ -238,7 +238,7 @@ document.addEventListener("keydown", (event) => {
     if(event.key === 'Backspace' || event.key === 'Delete'){
         deleteNumber();
     }
-    if(event.key === 'c'){ 
+    if(event.key === 'c'){  
         event.preventDefault();
         event.stopPropagation();
         clearScreen();
